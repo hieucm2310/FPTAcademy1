@@ -1,0 +1,55 @@
+﻿
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@using Common.Constants
+@using Common
+<!-- Divider -->
+<hr class="sidebar-divider my-0">
+
+
+<!-- Nav Item - Dashboard -->
+<li class="nav-item active" id="check-dashboard">
+    <a class="nav-link" href="@Url.Action("Dashboard", "Home")">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Bảng điều khiển</span>
+    </a>
+</li>
+
+<!-- Người dùng -->
+<hr class="sidebar-divider" id="check-line-users">
+<li class="nav-item" id="check-users">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+       aria-expanded="true" aria-controls="collapseOne">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Manage</span>
+    </a>
+    <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="@Url.Action("Index", "Category")">Category</a>
+            <a class="collapse-item" href="@Url.Action("Index", "Flower")">Flower</a>
+        </div>
+    </div>
+</li>
+<li class="nav-item">
+    <a class="nav-link collapsed" href="@Url.Action("Index", "Category")">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Sale Off</span>
+    </a>
+</li>
+@*<li class="nav-item" id="check-employee">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+       aria-expanded="true" aria-controls="collapseThree">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Quản lý nhân sự</span>
+    </a>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="@Url.Action("Staffs", "Staff")">Quản lý thông tin nhân sự</a>
+            <a class="collapse-item" href="@Url.Action("Contracts", "Contract")">Quản lý danh sách hợp đồng</a>
+        </div>
+    </div>
+</li>*@
+
+<!-- Divider -->
+<hr class="sidebar-divider d-none d-md-block">

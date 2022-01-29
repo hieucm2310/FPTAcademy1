@@ -1,0 +1,57 @@
+﻿/*Danh sách kiểm kê*/
+
+#sessionTbl .name {
+    width:20%
+}
+#sessionTbl .type {
+    width: 10%
+}
+#sessionTbl .place {
+    width: 10%
+}
+#sessionTbl .part {
+    width: 10%
+}
+#sessionTbl .createdBy {
+    width: 10%
+}
+#sessionTbl .note {
+    width: 15%
+}
+#sessionTbl .status {
+    width: 7%
+}
+#sessionTbl action {
+    width: 13%
+}
+#sessionTbl .id {
+    width: 5%
+}
+
+
+/*Danh sách người dùng*/
+#userTbl .userName {
+    width: 10%
+}
+#userTbl .fullName {
+    width: 15%
+}
+#userTbl .place {
+    width: 40%
+}
+#userTbl .role {
+    width: 15%
+}
+#userTbl .action {
+    width: 10%
+}
+
+.abcs {
+    background-color: red;
+}
+
+.styleBorder {
+    border: solid gray 1px;
+    padding: 5px;
+    padding-top: 10px;
+}

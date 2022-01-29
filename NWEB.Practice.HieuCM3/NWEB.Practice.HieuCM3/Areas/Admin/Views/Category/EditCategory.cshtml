@@ -1,0 +1,89 @@
+﻿@model Model.Category.CategoryModel
+@{
+    ViewData["Title"] = "EditCategory";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Cập nhật danh mục</h1>
+
+        <div class="form-group"></div>
+        <form id="CreateCategory" action="#" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="col-lg-12 col-xl-8">
+                <div class="form-group row">
+                    <label class="col-md-12 col-lg-4 label-control">Tên danh mục<span class="text-danger">*</span></label>
+                    <div class="col-md-12 col-lg-8">
+                        <input asp-for="CategoryName" class="form-control" type="text" placeholder="Nhập tên danh mục" />
+                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-xl-8">
+                <div class="form-group row">
+                    <label class="col-md-12 col-lg-4 label-control">Têch<span class="text-danger">*</span></label>
+                    <div class="col-md-12 col-lg-8">
+                        <input asp-for="Text" class="form-control" type="text" placeholder="Nhập tếch" />
+                        <span asp-validation-for="Text" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-xl-8">
+                <div class="form-group row">
+                    <label class="col-md-12 col-lg-4 label-control">Oder<span class="text-danger">*</span></label>
+                    <div class="col-md-12 col-lg-8">
+                        <input asp-for="Oder" class="form-control" type="number" placeholder="Nhập oder danh mục" />
+                        <span asp-validation-for="Oder" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="h3 mb-2 row">
+            <div class="col-md-12 col-lg-6">
+                <a href="@Url.Action("Index", "Category")" class="btn btn-secondary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-arrow-left"></i>
+                    </span>
+                    <span class="text">Quay lại</span>
+                </a>
+                <a class="btn btn-success btn-icon-split" onclick="UpdateCategory()">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-check"></i>
+                    </span>
+                    <span class="text">Cập nhật</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        function UpdateCategory() {
+            var lstIdStr = 'CategoryName,Text,Oder';
+            if (!RequireValidate(lstIdStr)) {
+                toastr.error('Bạn chưa nhập đủ thông tin.');
+                return;
+            };
+
+            var formData = new FormData();
+            formData.append("Id", $("#Id").val());
+            formData.append("CategoryName", $("#CategoryName").val());
+            formData.append("Text", $("#Text").val());
+            formData.append("Oder", $("#Oder").val());
+            formData.append("__RequestVerificationToken", _token);
+            postAjax('@Url.Action("UpdateCategory")', formData, function (data) {
+                if (data.code == "200") {
+                    setTimeout(
+                        function () {
+                            location.href = '/admin/danh-sach-danh-muc';
+                        }, 1000);
+                }
+            });
+        }
+</script>
+

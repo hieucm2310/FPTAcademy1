@@ -1,0 +1,77 @@
+﻿@model Model.Category.CategoryModel
+@{
+    ViewData["Title"] = "CreateCategory";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Thêm mới danh mục</h1>
+
+        <div class="form-group"></div>
+        <form id="CreatePlace" action="#" method="post">
+            <div class="col-lg-12 col-xl-8">
+                <div class="form-group row">
+                    <label class="col-md-12 col-lg-4 label-control">Order</label>
+                    <div class="col-md-12 col-lg-8">
+                        <input asp-for="Oder" class="form-control" type="number" placeholder="Insert Order" />
+                        <span asp-validation-for="Oder" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-12 col-lg-4 label-control">CategoryName</label>
+                    <div class="col-md-12 col-lg-8">
+                        <input asp-for="CategoryName" class="form-control" type="text" placeholder="Insert Category Name" />
+                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-12 col-lg-4 label-control">Text</label>
+                    <div class="col-md-12 col-lg-8">
+                        <input asp-for="Text" class="form-control" type="text" placeholder="Insert Text" />
+                        <span asp-validation-for="Text" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="h3 mb-2 row">
+            <div class="col-md-12 col-lg-6">
+                <a href="@Url.Action("Index", "Category")" class="btn btn-secondary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-arrow-left"></i>
+                    </span>
+                    <span class="text">Quay lại</span>
+                </a>
+                <a class="btn btn-success btn-icon-split" onclick="SaveCategory()">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-check"></i>
+                    </span>
+                    <span class="text">Tạo mới</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function SaveCategory() {
+
+        var formData = new FormData();
+        formData.append("Oder", $("#Oder").val());
+        formData.append("CategoryName", $("#CategoryName").val());
+        formData.append("Text", $("#Text").val());
+        formData.append("__RequestVerificationToken", _token);
+        postAjax('@Url.Action("InsertCategory")', formData, function (data) {
+            if (data.code == "200") {
+                setTimeout(
+                    function () {
+                        location.href = 'danh-sach-danh-muc';
+                    }, 1000);
+            }
+        });
+    }
+</script>

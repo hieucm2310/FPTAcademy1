@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewData["Title"] = "Category";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/app.css" rel="stylesheet" />
+<div id="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Danh sách danh mục</h1>
+        <div class="h3 mb-2 row">
+            <div class="col-md-12 col-lg-12">
+                <a href="@Url.Action("CreateCategory", "Category")" class="btn btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">Thêm mới</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="form-group row" style="justify-content: flex-end">
+                    <div class="col-md-12 col-lg-3 pr-0">
+                        <input id="searchValue" class="form-control searchValue" type="text" placeholder="Tìm kiếm" />
+                    </div>
+                    <a class="btn btn-success btn-icon-split" onclick="reloadWithPageOne()">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </a>
+                </div>
+                <table class="table table-bordered" id="monthPlanningTbl" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th data-orderable="false">Id</th>
+                            <th data-orderable="false">Oder</th>
+                            <th data-orderable="false">Category Name</th>
+                            <th data-orderable="false">Text</th>
+                            <th data-orderable="false">Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Bạn muốn xóa bản ghi này không?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                <a class="btn btn-danger" onclick="DeleteCategory()">Xóa</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var table = undefined;
+    $(document).ready(function () {
+        loadTable();
+        $('#searchValue').keypress(function (e) {
+            if (e.which == 13) {
+                reloadWithPageOne();
+            }
+        });
+    });
+    function reloadWithPageOne() {
+        if (table != undefined && table.api().ajax != undefined)
+            table.api().ajax.reload(null, true);
+    }
+    function reload() {
+        if (table != undefined && table.api().ajax != undefined)
+            table.api().ajax.reload(null,false);
+    }
+    function loadTable() {
+        table = $('#monthPlanningTbl').dataTable({
+            "oLanguage": {
+                "sEmptyTable": "Không có danh mục"
+            },
+            "language": {
+                "paginate": {
+                    "previous": "Trước",
+                    "next": "Tiếp theo"
+                }
+            },
+            searching: false,
+            paging: true,
+            lengthChange: false,
+            ordering: true,
+            filter: false,
+            destroy: true,
+            orderMulti: false,
+            serverSide: true,
+            processing: true,
+            lengthChange: false,
+            "bSort": false,
+            ajax: function (data, callback, settings) {
+                data.searchValue = $('#searchValue').val();
+                postTable("@Url.Action("GetListCategory", "Category")", data, callback);
+            },
+            "columns": [
+                { "data": "id", "name": "Id", "class": "id" },
+                { "data": "oder", "name": "Oder", "class": "oder" },
+                { "data": "categoryName", "name": "CategoryName", "class": "categoryName" },
+                { "data": "text", "name": "Text", "class": "text" },
+                {
+                    "class": "action",
+                    "render": function (data, row, full) {
+                        return "<a class='fas fa-fw fa-edit' title='Sửa' onclick=UpdateCategory('" + full.id + "'); ></a> <a href='#' class='fas fa-fw fa-trash' style='color:red' title='Xóa' data-toggle='modal' data-target='#deleteModal' onclick=openConfirmDelete('" + full.id + "');></a>";
+                    }
+                }
+            ]
+        });
+    }
+
+    function openConfirmDelete(id) {
+        deleteId = id;
+    }
+
+    function DeleteCategory() {
+        var formData = new FormData();
+        formData.append("Id", deleteId);
+        formData.append("__RequestVerificationToken", _token);
+        postAjax('@Url.Action("DeleteCategory")', formData, function (data) {
+            $('#deleteModal').modal("hide");
+            reload();
+        });
+    }
+
+    function UpdateCategory(id) {
+        location.href = '/sua-danh-muc' + "/" + id;
+    }
+</script>
+
+
